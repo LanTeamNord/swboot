@@ -34,18 +34,18 @@ def generate(out, ip, switch):
     var = netsnmp.Varbind('.1.3.6.1.2.1.47.1.1.1.1.13.1')
     model = netsnmp.snmpget(var, Version=2, DestHost=ip, Community='private')[0]
 
-    if model == None:
+    if (model == None) or (model == ""):
       var = netsnmp.Varbind('.1.3.6.1.2.1.47.1.1.1.1.13.1001')
       model = netsnmp.snmpget(var, Version=2, DestHost=ip, Community='private')[0]
     
-  if model == None:
+  if (model == None) or (model == ""):
     sw_reload(ip)
     error("Could not get model for switch" , ip)
     return
 
   if not model in config.models:
     sw_reload(ip)
-    error("Template for model " + model + " not found")
+    error("Template for model "+ model +" not found")
     return
 
   # Throws exception if something bad happens
@@ -165,7 +165,7 @@ log("swtftpd started")
 tftpy.setLogLevel(logging.WARNING)
 server = tftpy.TftpServer(file_callback)
 try:
-  server.listen("10.0.13.2", 69)
+  server.listen("10.255.1.2", 69)
 except tftpy.TftpException, err:
   sys.stderr.write("%s\n" % str(err))
   sys.exit(1)
