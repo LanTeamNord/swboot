@@ -51,6 +51,9 @@ models:
   - name: "WS-C3560G-24TS-S"
     path: "/scripts/swboot/switchconfig/c3xxxg-24.cfg"
     ports: 24
+  - name: "WS-C2960S-24PS-L"
+    path: "/scripts/swboot/switchconfig/c2960s-24.cfg"
+    ports: 24
   - name: "WS-C3560G-48TS-S"
     path: "/scripts/swboot/switchconfig/c3xxxg-48.cfg"
     ports: 24
