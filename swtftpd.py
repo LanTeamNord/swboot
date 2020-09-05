@@ -42,6 +42,7 @@ def generate(out, ip, switch):
     sw_reload(ip)
     error("Could not get model for switch" , ip)
     return
+  log( 'Config gen for option82: %s,  ip:%s,  model,%s' % (switch,ip,model))
 
   if not model in config.models:
     sw_reload(ip)
@@ -130,7 +131,7 @@ def file_callback(context):
     error('Unable to identifiy switch', ip)
     return None
     
-  print 'Switch is "%s"' % switch
+  #print 'Switch is "%s"' % switch
   db.set('switchname-%s' % ip, switch)
 
   if (context.file_to_transfer == "network-confg" or
@@ -165,7 +166,7 @@ log("swtftpd started")
 tftpy.setLogLevel(logging.WARNING)
 server = tftpy.TftpServer(file_callback)
 try:
-  server.listen("10.255.1.2", 69)
+  server.listen("0.0.0.0", 69)
 except tftpy.TftpException, err:
   sys.stderr.write("%s\n" % str(err))
   sys.exit(1)

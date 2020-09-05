@@ -46,7 +46,7 @@ models:
     path: "/scripts/swboot/switchconfig/c2960-8.cfg"
     ports: 8
   - name: "WS-C3560-8PC-S"
-    path: "/scripts/swboot/switchconfig/c2960-8.cfg"
+    path: "/scripts/swboot/switchconfig/c3560-8.cfg"
     ports: 8
   - name: "WS-C3560G-24TS-S"
     path: "/scripts/swboot/switchconfig/c3xxxg-24.cfg"
