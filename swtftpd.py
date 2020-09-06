@@ -46,7 +46,7 @@ def generate(out, ip, switch):
     sw_reload(ip)
     error("Could not get model for switch" , ip)
     return
-  log('Config gen for option82: %s,  ip:%s,  model,%s' % (switch,ip,model))
+  log('Config generate for device: option82: %s, ip:%s, model,%s' % (switch,ip,model))
 
   if not model in config.models:
     sw_reload(ip)
