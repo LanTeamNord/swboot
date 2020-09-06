@@ -35,11 +35,11 @@ def generate(out, ip, switch):
     # Get Cisco model name (two tries)
     for i in range(2):
       var = netsnmp.Varbind('.1.3.6.1.2.1.47.1.1.1.1.13.1')
-    model = netsnmp.snmpget(var, Version=2, DestHost=ip, Community='private')[0]
-
-    if (model == None) or (model == ""):
-      var = netsnmp.Varbind('.1.3.6.1.2.1.47.1.1.1.1.13.1001')
       model = netsnmp.snmpget(var, Version=2, DestHost=ip, Community='private')[0]
+
+      if (model == None) or (model == ""):
+        var = netsnmp.Varbind('.1.3.6.1.2.1.47.1.1.1.1.13.1001')
+        model = netsnmp.snmpget(var, Version=2, DestHost=ip, Community='private')[0]
     model = None if model is None else model.decode()
     
   if (model == None) or (model == ""):
