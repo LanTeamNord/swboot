@@ -21,6 +21,7 @@ password = ""
 enable = ""
 snmp_ro = ""
 snmp_salt = ""
+domain_name = ""
 
 # NOTE(bluecmd): 2950 doesn't support VLAN aware context, which means that
 # WhereAmI and dhmon needs v2. No reason to have v3 in that case.
@@ -136,6 +137,7 @@ def generate(switch, model_id):
             enable=config.enable,
             enable_sha512=sha512_crypt.hash(config.enable),
             radius=config.radius,
+            domain_name=config.domain_name,
             snmp_ro=config.snmp_ro,
             snmp_rw=hashlib.sha1((config.snmp_salt + mgmt['ip']).encode()).hexdigest(),
             ipplan_host=lambda h: ipplan_host(h),

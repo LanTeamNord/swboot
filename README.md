@@ -5,12 +5,20 @@ On-demand switch configuration system.
 License is GPLv3 if nothing else is stated.
 
 ## Dependencies
+<<<<<<< HEAD
     sudo apt-get install redis-server python-redis libsnmp-python python-tempita python-ipcalc python-yaml python-six screen isc-dhcp-server snmp python-passlib
+=======
+    sudo apt-get install redis-server python-redis libsnmp-python python-tempita python-ipcalc python-yaml python-six screen isc-dhcp-server snmp
+>>>>>>> 6454a25530627735ce925ec302d6e28f07633296
 
 ## Config
     sudo /sbin/ifconfig eth1 inet 192.168.8.10 netmask 255.255.255.0
 
+<<<<<<< HEAD
     on ubuntu use netplan for static ip https://netplan.io/examples
+=======
+    on ubuntu use netplan for static ip https://netplan.io/examples 
+>>>>>>> 6454a25530627735ce925ec302d6e28f07633296
     and kill apparmor
      systemctl stop apparmor
      systemctl disable apparmor

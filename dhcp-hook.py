@@ -21,6 +21,7 @@ if sys.argv[1] == "commit":
   db.set('ip-{}'.format(swIp), swMac)
   db.set('client-{}'.format(swIp), swClient)
   db.set('mac-{}'.format(swMac), swIp)
+<<<<<<< HEAD
   if swRelay != '0.0.0.0':
     db.set('relay-{}'.format(swIp), swRelay)
     sqlidb = sqlite3.connect('/etc/ipplan.db')
@@ -31,3 +32,13 @@ if sys.argv[1] == "commit":
   if "Juniper" not in swClient:
     # We don't need any SNMP or base config for Juniper.
     os.system("/scripts/swboot/configure " + swIp + " &")
+=======
+ # if swRelay != '0.0.0.0':
+ #   db.set('relay-{}'.format(swIp), swRelay)
+ #   sqlidb = sqlite3.connect('/etc/ipplan.db')
+ #   cursor = sqlidb.cursor()
+ #   sql = "SELECT short_name FROM network WHERE ipv4_gateway_txt = ?"
+ #   networkname = cursor.execute(sql, (swRelay, )).fetchone()[0]
+ #   db.set('networkname-{}'.format(swIp), networkname)
+  os.system("/scripts/swboot/configure " + swIp + " &")
+>>>>>>> 6454a25530627735ce925ec302d6e28f07633296
