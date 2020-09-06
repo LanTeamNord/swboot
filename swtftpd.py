@@ -30,41 +30,27 @@ def sw_reload(ip):
     error("Exception in reload:", traceback.format_exc())
 
 def generate(out, ip, switch):
-<<<<<<< HEAD
   model = db.get('client-{}'.format(ip)).decode()
   if model == 'cisco':
     # Get Cisco model name (two tries)
     for i in range(2):
       var = netsnmp.Varbind('.1.3.6.1.2.1.47.1.1.1.1.13.1')
-=======
-  # Get Cisco model name (two tries)
-  for i in xrange(2):
-    var = netsnmp.Varbind('.1.3.6.1.2.1.47.1.1.1.1.13.1')
     model = netsnmp.snmpget(var, Version=2, DestHost=ip, Community='private')[0]
 
     if (model == None) or (model == ""):
       var = netsnmp.Varbind('.1.3.6.1.2.1.47.1.1.1.1.13.1001')
->>>>>>> 6454a25530627735ce925ec302d6e28f07633296
       model = netsnmp.snmpget(var, Version=2, DestHost=ip, Community='private')[0]
-
-      if model == None:
-        var = netsnmp.Varbind('.1.3.6.1.2.1.47.1.1.1.1.13.1001')
-        model = netsnmp.snmpget(var, Version=2, DestHost=ip, Community='private')[0]
     model = None if model is None else model.decode()
     
   if (model == None) or (model == ""):
     sw_reload(ip)
     error("Could not get model for switch" , ip)
     return
-  log( 'Config gen for option82: %s,  ip:%s,  model,%s' % (switch,ip,model))
+  log('Config gen for option82: %s,  ip:%s,  model,%s' % (switch,ip,model))
 
   if not model in config.models:
     sw_reload(ip)
-<<<<<<< HEAD
     error("Template for model " + model + " not found")
-=======
-    error("Template for model "+ model +" not found")
->>>>>>> 6454a25530627735ce925ec302d6e28f07633296
     return
 
   # Throws exception if something bad happens
@@ -80,19 +66,12 @@ def generate(out, ip, switch):
   return out
   
 def base(out, switch):
-<<<<<<< HEAD
-  out.write("snmp-server community private rw\n".encode())
-  out.write("hostname BASE\n".encode())
-  out.write("no vlan 2-4094\n".encode())
-  out.write("end\n\n".encode())
-=======
   out.write("snmp-server community private rw\n")
   out.write("snmp-server system-shutdown\n")
   out.write("hostname BASE\n")
   out.write("no vlan 2-1001\n")
   out.write("no vlan 1006-4094\n")
   out.write("end\n\n")
->>>>>>> 6454a25530627735ce925ec302d6e28f07633296
 
 def snmpv3_command(var, host, cmd):
   return cmd(var, Version=3, DestHost=host,
@@ -154,13 +133,8 @@ def file_callback(file_to_transfer, raddress, rport):
     error('Unable to identifiy switch', raddress)
     return None
     
-<<<<<<< HEAD
-  print('Switch is "%s"' % switch)
+  #print('Switch is "%s"' % switch)
   db.set('switchname-%s' % raddress, switch)
-=======
-  #print 'Switch is "%s"' % switch
-  db.set('switchname-%s' % ip, switch)
->>>>>>> 6454a25530627735ce925ec302d6e28f07633296
 
   if (file_to_transfer == "network-confg" or
       file_to_transfer == "Switch-confg"):
@@ -171,7 +145,6 @@ def file_callback(file_to_transfer, raddress, rport):
     f.seek(0)
     return f
 
-<<<<<<< HEAD
   if file_to_transfer == "juniper.tgz":
     model = db.get('client-{}'.format(raddress)).decode()
     if (model in config.models) and ('image' in config.models[model]):
@@ -180,11 +153,6 @@ def file_callback(file_to_transfer, raddress, rport):
   if not re.match('[A-Z]{1,2}[0-9][0-9]-[A-C]', switch):
     sw_reload(raddress)
     error("Switch", raddress, "does not match regexp, invalid option 82? Received ", option82, " as option 82")
-=======
-  if not re.match('[A-Z]{1,2}[0-9][0-9]-[A-Z]', switch):
-    sw_reload(ip)
-    error("Switch", ip, "does not match regexp, invalid option 82? Received ", option82, " as option 82")
->>>>>>> 6454a25530627735ce925ec302d6e28f07633296
     return None
 
   f = tempfile.TemporaryFile()
@@ -207,11 +175,7 @@ tftplog = logging.getLogger('tftpy.TftpClient')
 tftplog.setLevel(logging.WARN)
 try:
   server.listen("0.0.0.0", 69)
-<<<<<<< HEAD
 except tftpy.TftpException as err:
-=======
-except tftpy.TftpException, err:
->>>>>>> 6454a25530627735ce925ec302d6e28f07633296
   sys.stderr.write("%s\n" % str(err))
   sys.exit(1)
 except KeyboardInterrupt:

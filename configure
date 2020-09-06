@@ -8,10 +8,6 @@
 ID=$RANDOM
 IP=$1
 MY_IP=$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')
-<<<<<<< HEAD
-=======
-#echo "myip: $MY_IP"
->>>>>>> 6454a25530627735ce925ec302d6e28f07633296
 
 CNT=0
 while [ true ];
