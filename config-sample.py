@@ -22,6 +22,13 @@ enable = ""
 snmp_ro = ""
 snmp_salt = ""
 domain_name = ""
+mgmt_acl_name = "mgmt-access"
+mgmt_acl_lines = [
+        "remark Permit trafic from network crew",
+        "permit ip 10.10.0.0 0.0.255.255 any",
+        "remark deny the rest",
+        "deny ip any any",
+        ]
 
 # NOTE(bluecmd): 2950 doesn't support VLAN aware context, which means that
 # WhereAmI and dhmon needs v2. No reason to have v3 in that case.
@@ -41,7 +48,7 @@ snmpv3_priv = ''
 
 models = {}
 for model in yaml_conf['models']:
-  data = bunch(template=model['path'],eth=model['ports'])
+  data = bunch(template=model['path'],eth=model['ports'],name=model['name'])
   if 'image' in model:
     data.image = model['image']
   models.update({model['name']: data})
@@ -100,7 +107,9 @@ def ipplan_package(package):
 
 def generate(switch, model_id):
   model = config.models[model_id]
-
+  now = datetime.now()
+  swboot_generate_time = now.strftime("%Y-%m-%d %H:%M:%S")
+  template_time = datetime.fromtimestamp(os.path.getmtime(model.template)).strftime('%Y-%m-%d %H:%M:%S')
   mgmt, vlanid = parse_metadata(switch)
   if mgmt is None:
     raise Exception("The switch " + switch + " was not found in ipplan")
@@ -132,6 +141,7 @@ def generate(switch, model_id):
             vlanid=vlanid,
             wifi_switches=config.wifi_switches,
             wifi_vlanid=config.wifi_vlanid,
+            username=config.username,
             password=config.password,
             password_sha512=sha512_crypt.hash(config.password),
             enable=config.enable,
@@ -142,6 +152,10 @@ def generate(switch, model_id):
             snmp_rw=hashlib.sha1((config.snmp_salt + mgmt['ip']).encode()).hexdigest(),
             ipplan_host=lambda h: ipplan_host(h),
             ipplan_pkg=lambda p: ipplan_package(p),
+            swboot_generate_time=swboot_generate_time,
+            template_time=template_time,
+            mgmt_acl_name=mgmt_acl_name,
+            mgmt_acl_lines=mgmt_acl_lines,
 #           snmp_user=config.snmp_user,
 #           snmp_auth=config.snmp_auth,
 #           snmp_priv=config.snmp_priv
