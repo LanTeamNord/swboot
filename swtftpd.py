@@ -167,11 +167,11 @@ def file_callback(file_to_transfer, raddress, rport):
   return f
 
 log("swtftpd started")
-server = tftpy.TftpServer('/srv/tftp', file_callback)
+server = tftpy.TftpServer('/scripts/swboot/tftp_root', file_callback)
 tftplog = logging.getLogger('tftpy.TftpClient')
 tftplog.setLevel(logging.WARN)
 try:
-  server.listen("192.168.40.10", 69)
+  server.listen("0.0.0.0", 69)
 except tftpy.TftpException as err:
   sys.stderr.write("%s\n" % str(err))
   sys.exit(1)

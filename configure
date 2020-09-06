@@ -7,6 +7,7 @@
 
 ID=$RANDOM
 IP=$1
+MY_IP=$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')
 
 CNT=0
 while [ true ];
@@ -25,14 +26,15 @@ do
     exit 1
   fi
 
-  echo "Waiting for SNMP ..."
+  echo "Waiting for SNMP ..." \
+	  | logger -t configure
   sleep 5
 done
 
 snmpset -v 2c -c private $IP .1.3.6.1.4.1.9.9.96.1.1.1.1.2.$ID i 1
 snmpset -v 2c -c private $IP .1.3.6.1.4.1.9.9.96.1.1.1.1.3.$ID i 1
 snmpset -v 2c -c private $IP .1.3.6.1.4.1.9.9.96.1.1.1.1.4.$ID i 4
-snmpset -v 2c -c private $IP .1.3.6.1.4.1.9.9.96.1.1.1.1.5.$ID a 192.168.40.10
+snmpset -v 2c -c private $IP .1.3.6.1.4.1.9.9.96.1.1.1.1.5.$ID a $MY_IP
 snmpset -v 2c -c private $IP .1.3.6.1.4.1.9.9.96.1.1.1.1.6.$ID s BASE-confg
 snmpset -v 2c -c private $IP .1.3.6.1.4.1.9.9.96.1.1.1.1.14.$ID i 1
 
@@ -40,7 +42,8 @@ RET=2
 CNT=0
 while [ "$RET" = "2" ];
 do
-  echo "Waiting for switch to apply configuration ..."
+  echo "Waiting for switch to apply configuration ..." \
+	  | logger -t configure
   sleep 10
   RET=$(snmpget -Ov -v 2c -c private $IP \
     .1.3.6.1.4.1.9.9.96.1.1.1.1.10.$ID | cut -f 2 -d ' ')
@@ -52,7 +55,8 @@ do
   fi
 done
 
-echo "Return: $RET"
+echo "Return: $RET" \
+	| logger -t configure
 snmpset -v 2c -c private $IP .1.3.6.1.4.1.9.9.96.1.1.1.1.14.$ID i 6
 
 SWITCH=$(redis-cli --raw get $IP)
