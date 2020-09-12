@@ -9,6 +9,7 @@ from tempita import bunch
 from collections import namedtuple
 from passlib.hash import sha512_crypt
 import hashlib
+from datetime import datetime
 
 f = open(os.path.join(os.path.dirname(sys.argv[0]), 'switchconfig/config.yaml'), 'r')
 yaml_conf = yaml.safe_load(f)
