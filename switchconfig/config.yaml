@@ -51,6 +51,9 @@ models:
   - name: "WS-C2960S-48PS-L"
     path: "/scripts/swboot/switchconfig/c2960s.cfg"
     ports: 48
+  - name: "WS-C2960S-24TD-L"
+    path: "/scripts/swboot/switchconfig/c2960s-10g.cfg"
+    ports: 24
   - name: "WS-C3560G-48TS-S"
     path: "/scripts/swboot/switchconfig/c3560g.cfg"
     ports: 48
@@ -73,4 +76,5 @@ static_files:
   - c3560-ip.tar: "/scripts/swboot/switchconfig/ios/c3560-ipservicesk9-tar.150-2.SE11.tar"
   - c3750-ip.tar: "/scripts/swboot/switchconfig/ios/c3750-ipservicesk9-tar.150-2.SE11.tar"
   - c4500e.bin: "/scripts/swboot/switchconfig/ios/cat4500e-entservicesk9-mz.152-2.E8.bin"
+  - c2960s.tar: "/scripts/swboot/switchconfig/ios/c2960s-universalk9-tar.152-2.E9.tar"
 
